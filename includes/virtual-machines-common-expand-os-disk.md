@@ -37,12 +37,12 @@ In this article we’ll accomplish the task of resizing the OS drive using resou
 5. And here comes the moment we’ve been waiting for! Set the size of the OS disk to the desired value and update the VM as follows:
    
    ```Powershell
-   $vm.StorageProfile.OSDisk.DiskSizeGB = 1023
+   $vm.StorageProfile.OSDisk.DiskSizeGB = 2048
    Update-AzureRmVM -ResourceGroupName $rgName -VM $vm
    ```
    
    > [!WARNING]
-   > The new size should be greater than the existing disk size. The maximum allowed is 1023 GB.
+   > The new size should be greater than the existing disk size. The maximum allowed is 2048 GB.
    > 
    > 
 6. Updating the VM may take a few seconds. Once the command finishes executing, restart the VM as follows:
@@ -63,7 +63,7 @@ $rgName = 'my-resource-group-name'
 $vmName = 'my-vm-name'
 $vm = Get-AzureRmVM -ResourceGroupName $rgName -Name $vmName
 Stop-AzureRmVM -ResourceGroupName $rgName -Name $vmName
-$vm.StorageProfile.OSDisk.DiskSizeGB = 1023
+$vm.StorageProfile.OSDisk.DiskSizeGB = 2048
 Update-AzureRmVM -ResourceGroupName $rgName -VM $vm
 Start-AzureRmVM -ResourceGroupName $rgName -Name $vmName
 ```
@@ -72,12 +72,12 @@ Start-AzureRmVM -ResourceGroupName $rgName -Name $vmName
 Though in this article, we focused primarily on expanding the OS disk of the VM, the developed script may also be used for expanding the data disks attached to the VM by changing a single line of code. For example, to expand the first data disk attached to the VM, replace the ```OSDisk``` object of ```StorageProfile``` with ```DataDisks``` array and use a numeric index to obtain a reference to first attached data disk, as shown below:
 
 ```Powershell
-$vm.StorageProfile.DataDisks[0].DiskSizeGB = 1023
+$vm.StorageProfile.DataDisks[0].DiskSizeGB = 2048
 ```
 Similarly you may reference other data disks attached to the VM, either by using an index as shown above or the ```Name``` property of the disk as illustrated below:
 
 ```Powershell
-($vm.StorageProfile.DataDisks | Where {$_.Name -eq 'my-second-data-disk'})[0].DiskSizeGB = 1023
+($vm.StorageProfile.DataDisks | Where {$_.Name -eq 'my-second-data-disk'})[0].DiskSizeGB = 2048
 ```
 
 If you want to find out how to attach disks to an Azure Resource Manager VM, check this [article](../articles/virtual-machines/windows/attach-disk-portal.md?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
